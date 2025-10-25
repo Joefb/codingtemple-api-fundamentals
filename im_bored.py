@@ -1,19 +1,21 @@
 import re
 import requests
+import random
 
 
 class ImBored:
     def __init__(self, name):
         self.name = name
-        self.base_url = "https://bored-api.appbrewery.com/random"
+        # self.base_url = "https://bored-api.appbrewery.com/random"
+        self.base_url = "https://bored-api.appbrewery.com/"
 
-    def get_response(self):
+    def get_response(self, filter):
         """
         Method to handle GET requests
         Parses data and returns
         """
         # Get response
-        response = requests.get(self.base_url)
+        response = requests.get(self.base_url + filter)
 
         # Check response, error if not 200
         if response.status_code != 200:
@@ -90,11 +92,64 @@ class ImBored:
         API Endpoint: https://bored-api.appbrewery.com/random
         """
         # Get response
-        response = self.get_response()
+        response = self.get_response("random")
         return response
 
     def get_activity_by_type(self):
-        pass
+        """
+        Gets activity by type
+        Ask user what type of activity they would like
+        Validate input
+        Send request
+        """
+
+        print("What type of activity would you like to choose?")
+        print("""
+            1: Education
+            2: Recreational
+            3: Social
+            4: Charity
+            5: Cooking
+            6: Relaxation
+            7: Music
+            8: Busywork
+            9: DIY
+              """)
+
+        # Get input
+        type_input = self.validate_input(1, 9)
+
+        filter = ""
+
+        if type_input == 1:
+            filter = "filter?type=education"
+
+        elif type_input == 2:
+            filter = "filter?type=recreational"
+
+        elif type_input == 3:
+            filter = "filter?type=social"
+
+        elif type_input == 4:
+            filter = "filter?type=charity"
+
+        elif type_input == 5:
+            filter = "filter?type=cooking"
+
+        elif type_input == 6:
+            filter = "filter?type=relaxation"
+
+        elif type_input == 7:
+            filter = "filter?type=music"
+
+        elif type_input == 8:
+            filter = "filter?type=busywork"
+
+        elif type_input == 9:
+            filter = "filter?type=diy"
+
+        response = self.get_response(filter)
+        return response
 
     def get_activity_by_participants(self):
         pass
@@ -114,17 +169,22 @@ def main():
         get_activity = bored.validate_input(1, 6)
         activity = None
 
+        # Quit
         if get_activity == 6:
             print("Thanks for using Im Soooo Bored!")
             print("Have a good day!! Hope you enjoyed!")
             exit()
 
+        # Random
         if get_activity == 1:
             activity = bored.get_random_activity()
             bored.print_activity("Random", activity)
 
+        # By Type
         if get_activity == 2:
-            pass
+            activity = bored.get_activity_by_type()
+            random_acvivity = random.choice(activity)
+            bored.print_activity("By Type", random_acvivity)
 
 
 if __name__ == "__main__":
