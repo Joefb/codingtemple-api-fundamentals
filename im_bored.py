@@ -190,7 +190,13 @@ class ImBored:
         return
 
     def print_saved_activities(self):
-        pass
+        """
+        Print saved activities
+        Iterate through saved activities dict and print
+        """
+
+        for dicts in self.my_favs_data:
+            self.print_activity("My Favorites", dicts)
 
 
 def main():
@@ -227,13 +233,20 @@ def main():
         # Save activity
         elif get_activity == 4:
             if not activity:
+                print("")
                 print("Select an activity first!")
+                print("")
                 continue
 
             else:
+                print("")
                 print("Saving Activity")
                 bored.save_activity(activity)
                 print("Activity Saved!")
+                print("")
+
+        elif get_activity == 5:
+            bored.print_saved_activities()
 
 
 if __name__ == "__main__":
