@@ -1,6 +1,7 @@
 import requests
 import random
 import json
+import os
 
 
 class ImBored:
@@ -34,7 +35,7 @@ class ImBored:
         num1 and num2 are the amount of options the calling method has
         """
 
-        invalid_response = f"Invalid Response. Choose {num1}-{num2}."
+        invalid_response = f"\nInvalid Response. Choose {num1}-{num2}.\n"
 
         while True:
             response = input(f"Choose an option ({num1}-{num2}): ")
@@ -45,7 +46,6 @@ class ImBored:
 
             except ValueError:
                 print(invalid_response)
-
                 continue
 
             else:
@@ -77,12 +77,12 @@ class ImBored:
         activity_dict = activity
 
         print(f"""
+
         {type} Activity Suggestion:
         ---------------------------------
         Activity: {activity_dict["activity"]}
         Type: {activity_dict["type"]}
         Participants: {activity_dict["participants"]}
-        Price: {activity_dict["price"]}
         Web Link: {activity_dict["link"]}
         Accessibility: {activity_dict["accessibility"]}
         ----------------------------------
@@ -92,9 +92,9 @@ class ImBored:
     def get_random_activity(self):
         """
         Get a random activity
-
-        API Endpoint: https://bored-api.appbrewery.com/random
+        Get response and return results
         """
+
         # Get response
         response = self.get_response("random")
         return response
@@ -107,6 +107,7 @@ class ImBored:
         Send request
         """
 
+        os.system("cls" if os.name == "nt" else "clear")
         print("What type of activity would you like to choose?")
         print("""
             1: Education
@@ -126,6 +127,7 @@ class ImBored:
         # Query param
         filter = ""
 
+        # Set the query param
         if type_input == 1:
             filter = "filter?type=education"
 
@@ -153,6 +155,7 @@ class ImBored:
         elif type_input == 9:
             filter = "filter?type=diy"
 
+        # Get response and return
         response = self.get_response(filter)
         return response
 
@@ -160,10 +163,12 @@ class ImBored:
         """
         Get activity by participants
         Get num of participants from user
+        Validite input
         Get response from bored-api
         Display outupt
         """
 
+        os.system("cls" if os.name == "nt" else "clear")
         print("""
             Omg I have Friends!
             Can have upto 8 friends!
@@ -171,7 +176,7 @@ class ImBored:
             How many participants will you have?
              """)
 
-        # Get user input
+        # Get user input and validate inupt
         user_input = self.validate_input(1, 8)
         response = self.get_response(f"filter?participants={user_input}")
         return response
@@ -203,14 +208,18 @@ def main():
     bored = ImBored("Im Soooo Bored!")
     activity = None
 
+    # Main loop
     while True:
         bored.im_bored_cli()
         get_activity = bored.validate_input(1, 6)
 
         # Quit
         if get_activity == 6:
+            os.system("cls" if os.name == "nt" else "clear")
+            print("======================================")
             print("Thanks for using Im Soooo Bored!")
             print("Have a good day!! Hope you enjoyed!")
+            print("======================================")
             exit()
 
         # Random
@@ -233,26 +242,20 @@ def main():
         # Save activity
         elif get_activity == 4:
             if not activity:
-                print("")
-                print("Select an activity first!")
-                print("")
+                print("\nYou must get a activity first!\n")
                 continue
 
             else:
-                print("")
+                print("=====================")
                 print("Saving Activity")
                 bored.save_activity(activity)
                 print("Activity Saved!")
-                print("")
+                print("=====================")
 
         elif get_activity == 5:
+            os.system("cls" if os.name == "nt" else "clear")
             bored.print_saved_activities()
 
 
 if __name__ == "__main__":
     main()
-
-##### TESTING AREA #####
-# bored = ImBored("Boredom Buster")
-# bored.im_bored_cli()
-# # print(bored.get_random_activity())
