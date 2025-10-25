@@ -1,3 +1,4 @@
+import re
 import requests
 
 
@@ -35,16 +36,21 @@ class ImBored:
         6. Exit
         """)
 
-        response = input("Choose an option (1-6): ")
-        try:
-            if int(response) < 1 or int(response) > 6:
-                print("Invalid Response. Choose 1-6.")
+        while True:
+            response = input("Choose an option (1-6): ")
+            try:
+                if int(response) < 1 or int(response) > 6:
+                    print("Invalid Response. Choose 1-6.")
+                    continue
 
-        except ValueError:
-            print("Invalid response. Choose 1-6.")
+            except ValueError:
+                print("Invalid response. Choose 1-6.")
+                continue
 
-        if int(response) == 1:
-            self.get_random_activity()
+            else:
+                break
+
+        return int(response)
 
     def get_random_activity(self):
         """
@@ -54,10 +60,29 @@ class ImBored:
         """
         # Get response
         response = self.get_response()
-        print(response)
         return response
 
 
-bored = ImBored("Boredom Buster")
-bored.im_bored_cli()
-# print(bored.get_random_activity())
+def main():
+    bored = ImBored("Boredom Buster")
+
+    get_activity = bored.im_bored_cli()
+    activity = None
+
+    if get_activity == 6:
+        print("Have a good day!! Hope you enjoyed!")
+        exit()
+
+    if get_activity == 1:
+        activity = bored.get_random_activity()
+
+    print(activity)
+
+
+if __name__ == "__main__":
+    main()
+
+##### TESTING AREA #####
+# bored = ImBored("Boredom Buster")
+# bored.im_bored_cli()
+# # print(bored.get_random_activity())
