@@ -24,7 +24,36 @@ class ImBored:
             parsed_data = response.json()
             return parsed_data
 
+    def validate_input(self, num1, num2):
+        """
+        Validite user input
+        num1 and num2 are the amount of options the calling method has
+        """
+
+        invalid_response = f"Invalid Response. Choose {num1}-{num2}."
+
+        while True:
+            response = input(f"Choose an option ({num1}-{num2}): ")
+            try:
+                if int(response) < num1 or int(response) > num2:
+                    print(invalid_response)
+                    continue
+
+            except ValueError:
+                print(invalid_response)
+
+                continue
+
+            else:
+                break
+
+        return int(response)
+
     def im_bored_cli(self):
+        """
+        Print the main menu
+        """
+
         print("""
         Bored Activity Finder
         ======================
@@ -36,27 +65,15 @@ class ImBored:
         6. Exit
         """)
 
-        while True:
-            response = input("Choose an option (1-6): ")
-            try:
-                if int(response) < 1 or int(response) > 6:
-                    print("Invalid Response. Choose 1-6.")
-                    continue
-
-            except ValueError:
-                print("Invalid response. Choose 1-6.")
-                continue
-
-            else:
-                break
-
-        return int(response)
-
-    def print_activity(self, name, activity):
+    def print_activity(self, type, activity):
+        """
+        Prints the activity for the calling method
+        Takes in type of acvivity and activity dict
+        """
         activity_dict = activity
 
         print(f"""
-        {name} Activity Suggestion:
+        {type} Activity Suggestion:
         ---------------------------------
         Activity: {activity_dict["activity"]}
         Type: {activity_dict["type"]}
@@ -90,19 +107,24 @@ class ImBored:
 
 
 def main():
-    bored = ImBored("Boredom Buster")
+    bored = ImBored("Im Soooo Bored!")
 
     while True:
-        get_activity = bored.im_bored_cli()
+        bored.im_bored_cli()
+        get_activity = bored.validate_input(1, 6)
         activity = None
 
         if get_activity == 6:
+            print("Thanks for using Im Soooo Bored!")
             print("Have a good day!! Hope you enjoyed!")
             exit()
 
         if get_activity == 1:
             activity = bored.get_random_activity()
             bored.print_activity("Random", activity)
+
+        if get_activity == 2:
+            pass
 
 
 if __name__ == "__main__":
