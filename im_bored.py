@@ -52,6 +52,20 @@ class ImBored:
 
         return int(response)
 
+    def print_activity(self, name, activity):
+        activity_dict = activity
+
+        print(f"""
+        {name} Activity Suggestion:
+        ---------------------------------
+        Activity: {activity_dict["activity"]}
+        Type: {activity_dict["type"]}
+        Participants: {activity_dict["participants"]}
+        Price: {activity_dict["price"]}
+        Web Link: {activity_dict["link"]}
+        Accessibility: {activity_dict["accessibility"]}
+        """)
+
     def get_random_activity(self):
         """
         Get a random activity
@@ -62,21 +76,33 @@ class ImBored:
         response = self.get_response()
         return response
 
+    def get_activity_by_type(self):
+        pass
+
+    def get_activity_by_participants(self):
+        pass
+
+    def save_activity(self, activity):
+        pass
+
+    def print_saved_activities(self):
+        pass
+
 
 def main():
     bored = ImBored("Boredom Buster")
 
-    get_activity = bored.im_bored_cli()
-    activity = None
+    while True:
+        get_activity = bored.im_bored_cli()
+        activity = None
 
-    if get_activity == 6:
-        print("Have a good day!! Hope you enjoyed!")
-        exit()
+        if get_activity == 6:
+            print("Have a good day!! Hope you enjoyed!")
+            exit()
 
-    if get_activity == 1:
-        activity = bored.get_random_activity()
-
-    print(activity)
+        if get_activity == 1:
+            activity = bored.get_random_activity()
+            bored.print_activity("Random", activity)
 
 
 if __name__ == "__main__":
