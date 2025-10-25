@@ -6,7 +6,6 @@ import random
 class ImBored:
     def __init__(self, name):
         self.name = name
-        # self.base_url = "https://bored-api.appbrewery.com/random"
         self.base_url = "https://bored-api.appbrewery.com/"
 
     def get_response(self, filter):
@@ -57,8 +56,8 @@ class ImBored:
         """
 
         print("""
-        Bored Activity Finder
-        ======================
+        Im Soooo Bored Activity Finder!
+        ===============================
         1. Get a Random Activity
         2. Get Activity by Type
         3. Get Activity by Participans
@@ -83,6 +82,8 @@ class ImBored:
         Price: {activity_dict["price"]}
         Web Link: {activity_dict["link"]}
         Accessibility: {activity_dict["accessibility"]}
+        ----------------------------------
+
         """)
 
     def get_random_activity(self):
@@ -119,6 +120,7 @@ class ImBored:
         # Get input
         type_input = self.validate_input(1, 9)
 
+        # Query param
         filter = ""
 
         if type_input == 1:
@@ -152,7 +154,24 @@ class ImBored:
         return response
 
     def get_activity_by_participants(self):
-        pass
+        """
+        Get activity by participants
+        Get num of participants from user
+        Get response from bored-api
+        Display outupt
+        """
+
+        print("""
+            Omg I have Friends!
+            Can have upto 8 friends!
+            -----------------------
+            How many participants will you have?
+             """)
+
+        # Get user input
+        user_input = self.validate_input(1, 8)
+        response = self.get_response(f"filter?participants={user_input}")
+        return response
 
     def save_activity(self, activity):
         pass
@@ -185,6 +204,11 @@ def main():
             activity = bored.get_activity_by_type()
             random_acvivity = random.choice(activity)
             bored.print_activity("By Type", random_acvivity)
+
+        if get_activity == 3:
+            activity = bored.get_activity_by_participants()
+            random_acvivity = random.choice(activity)
+            bored.print_activity("By Participants", random_acvivity)
 
 
 if __name__ == "__main__":
