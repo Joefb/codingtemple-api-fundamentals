@@ -1,12 +1,15 @@
-import re
 import requests
 import random
+import json
 
 
 class ImBored:
     def __init__(self, name):
         self.name = name
         self.base_url = "https://bored-api.appbrewery.com/"
+
+        with open("my_favs_data.json", "r") as f:
+            self.my_favs_data = json.load(f)
 
     def get_response(self, filter):
         """
@@ -61,7 +64,7 @@ class ImBored:
         1. Get a Random Activity
         2. Get Activity by Type
         3. Get Activity by Participans
-        4. Save my Favorite Activities
+        4. Save to Favorite Activities
         5. View my Favorite Activities
         6. Exit
         """)
@@ -174,7 +177,17 @@ class ImBored:
         return response
 
     def save_activity(self, activity):
-        pass
+        """
+        Save activity
+        Append dict
+        Dump to file
+        """
+        self.my_favs_data.append(activity)
+
+        with open("my_favs_data.json", "w") as f:
+            json.dump(self.my_favs_data, f, indent=4)
+
+        return
 
     def print_saved_activities(self):
         pass
@@ -182,11 +195,11 @@ class ImBored:
 
 def main():
     bored = ImBored("Im Soooo Bored!")
+    activity = None
 
     while True:
         bored.im_bored_cli()
         get_activity = bored.validate_input(1, 6)
-        activity = None
 
         # Quit
         if get_activity == 6:
@@ -195,20 +208,32 @@ def main():
             exit()
 
         # Random
-        if get_activity == 1:
+        elif get_activity == 1:
             activity = bored.get_random_activity()
             bored.print_activity("Random", activity)
 
         # By Type
-        if get_activity == 2:
+        elif get_activity == 2:
             activity = bored.get_activity_by_type()
-            random_acvivity = random.choice(activity)
-            bored.print_activity("By Type", random_acvivity)
+            acvivity = random.choice(activity)
+            bored.print_activity("By Type", acvivity)
 
-        if get_activity == 3:
+        # By participants
+        elif get_activity == 3:
             activity = bored.get_activity_by_participants()
-            random_acvivity = random.choice(activity)
-            bored.print_activity("By Participants", random_acvivity)
+            acvivity = random.choice(activity)
+            bored.print_activity("By Participants", acvivity)
+
+        # Save activity
+        elif get_activity == 4:
+            if not activity:
+                print("Select an activity first!")
+                continue
+
+            else:
+                print("Saving Activity")
+                bored.save_activity(activity)
+                print("Activity Saved!")
 
 
 if __name__ == "__main__":

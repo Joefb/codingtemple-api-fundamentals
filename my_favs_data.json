@@ -1,0 +1,15 @@
+[
+  {
+    "activity": "Learn GraphQL",
+    "availability": 0.8,
+    "type": "education",
+    "participants": 1,
+    "price": 0,
+    "accessibility": "Few to no challenges",
+    "duration": "hours",
+    "kidFriendly": true,
+    "link": "https://graphql.org/",
+    "key": "2167064"
+  }
+]
+
